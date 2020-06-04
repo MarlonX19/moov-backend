@@ -3,13 +3,17 @@ const connection = require('../database/connection');
 module.exports = {
   async store(req, res) {
     const { filename } = req.file;
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password, phone, document, number_starts, push_id } = req.body;
 
     try {
       const response = await connection('users').insert({
         first_name,
         last_name,
         email,
+        phone,
+        document,
+        number_starts,
+        push_id,
         password,
         avatar_path: filename
       })
@@ -19,6 +23,7 @@ module.exports = {
 
     }
     catch (error) {
+      console.log(error)
       return res.send(error)
     }
   },
