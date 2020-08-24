@@ -22,5 +22,27 @@ module.exports = {
 
       return res.send(error)
     }
+  },
+
+
+  async checkEmail(req, res) {
+    const { email } = req.body;
+
+    try {
+      const response = await connection('users').where({
+        email
+      }).select('users.email')
+
+      if (response.length > 0) {
+        return res.status(200).send({ message: `O email já está em uso`, response: response })
+      }
+
+      return res.status(201);
+
+    }
+    catch (error) {
+
+      return res.send(error)
+    }
   }
 }
