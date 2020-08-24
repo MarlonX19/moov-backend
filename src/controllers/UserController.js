@@ -5,6 +5,14 @@ module.exports = {
     const { filename } = req.file;
     const { first_name, last_name, email, password, phone, document, number_starts, push_id } = req.body;
 
+    const checkEmail = await connection('users').where({
+      email
+    }).select('users.email')
+
+    if (checkEmail.length > 0) {
+      return res.status(422).send({ message: `O email já está em uso`, data: checkEmail })
+    }
+
     try {
       const response = await connection('users').insert({
         first_name,
