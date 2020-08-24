@@ -21,8 +21,8 @@ const motoristas = io.of('/motoristas');
 usuarios.on('connection', (socket) => {
   console.log('a user connected to usuarios');
 
-  socket.on('continue', () => {
-    motoristas.emit('hello')
+  socket.on('continue', (data) => {
+    motoristas.emit('hello', data)
   })
 
   usuarios.emit('connected', socket.client.conn.server.clientsCount)

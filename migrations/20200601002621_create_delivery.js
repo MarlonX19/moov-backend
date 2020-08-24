@@ -10,7 +10,7 @@ exports.up = function (knex) {
       table.string('from');
       table.string('to');
       table.timestamp('delivered_at');
-      table.timestamp('rate');
+      table.timestamp('date');
       table.integer('user_id');
       table.foreign('user_id').references('id').inTable('users');
 
