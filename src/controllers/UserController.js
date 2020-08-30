@@ -55,7 +55,7 @@ module.exports = {
       if (response.length > 0) {
         return res.send(response);
       }
-      return res.send({ message: 'Usuário não encontrado'});
+      return res.send({ message: 'Usuário não encontrado' });
     }
     catch (error) {
       return res.send(error)
@@ -79,11 +79,36 @@ module.exports = {
         return res.send(newData);
 
       }
-      return res.send({ message: 'Erro ao atualizar dados'});
+      return res.send({ message: 'Erro ao atualizar dados' });
     }
     catch (error) {
       return res.send(error)
     }
 
-  }
+  },
+
+
+  async updateUserPhoto(req, res) {
+    const { filename } = req.file;
+    const { id } = req.body;
+
+    console.log(id);
+
+    try {
+      const response = await connection('users').where({ id: id }).update({ avatar_path: filename });
+
+      console.log(response)
+      if (response === 1) {
+        const newData = await connection('users').where({ id: id }).select('*');
+
+        return res.send(newData);
+
+      }
+      return res.send({ message: 'Erro ao atualizar dados' });
+    }
+    catch (error) {
+      return res.send(error)
+    }
+
+  },
 }
