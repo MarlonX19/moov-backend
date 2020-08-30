@@ -65,14 +65,19 @@ module.exports = {
   },
 
   async updateUser(req, res) {
-    const { id } = req.body;
+    const { userData } = req.body;
+
+    console.log(userData)
 
     try {
-      const response = await connection('users').where({ id: id }).update(req.body);
+      const response = await connection('users').where({ id: userData.id }).update(userData);
 
       console.log(response)
       if (response === 1) {
-        return res.status(204).send({ message: 'Dados alterados com sucesso'});
+        const newData = await connection('users').where({ id: userData.id }).select('*');
+
+        return res.send(newData);
+
       }
       return res.send({ message: 'Erro ao atualizar dados'});
     }
