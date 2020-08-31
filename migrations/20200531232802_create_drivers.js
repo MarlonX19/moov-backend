@@ -13,6 +13,8 @@ exports.up = function (knex) {
       table.integer('number_stars');
       table.string('password');
       table.string('avatar_path');
+      table.string('passwordResetToken').nullable();
+      table.string('passwordResetExpires').nullable();
     })
 };
 

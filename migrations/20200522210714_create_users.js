@@ -12,6 +12,8 @@ exports.up = function (knex) {
       table.string('push_id');
       table.string('password').notNullable();
       table.string('avatar_path');
+      table.string('passwordResetToken').nullable();
+      table.string('passwordResetExpires').nullable();
     })
 };
 

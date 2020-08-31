@@ -29,6 +29,7 @@ routes.get('/delivery', DeliveryController.listConsult);
 
 routes.post('/login', AuthController.Login);
 routes.post('/checkEmail', AuthController.checkEmail);
+routes.post('/forgot', AuthController.forgot);
 
 
 module.exports = routes;
