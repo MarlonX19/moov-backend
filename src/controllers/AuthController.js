@@ -50,7 +50,7 @@ module.exports = {
 
 
   async forgot(req, res) {
-    const { email, id } = req.body;
+    const { email } = req.body;
 
     const user_data = await connection('users').where({
       email
@@ -59,14 +59,14 @@ module.exports = {
     if (user_data.length < 1) {
       return res.status(403).json({ error: 'Email informado inexistente' })
     }
-    
+
     const token = crypto.randomBytes(2).toString('hex');
     const now = new Date();
 
     now.setHours(now.getHours() + 1);
 
     const recovery_status = await connection('users')
-      .where({ id }) //hardcoded, replace paramenter for user_data.id
+      .where({ email }) //hardcoded, replace paramenter for user_data.id
       .update({
         passwordResetToken: token,
         passwordResetExpires: now
@@ -79,7 +79,7 @@ module.exports = {
     mailer.sendMail({
       to: 'marlon.englemam@gmail.com',
       from: 'xyxyxy19@protonmail.com',
-      subject: "Recuperação de senha | Portfolio",
+      subject: "Recuperação de senha | Moov",
       template: 'auth/forgot_password',
       context: { token },
     }, (err) => {
@@ -89,6 +89,41 @@ module.exports = {
     })
 
     return res.status(200).json({ message: 'Token de segurança gerado e enviado ao seu email' })
+
+  },
+
+
+  async reset(req, res) {
+    const { email, token, password } = req.body;
+
+    const check_data = await connection('users')
+      .where('email', email)
+      .select('passwordResetToken', 'passwordResetExpires')
+
+    if (check_data.length < 1) {
+      return res.status(403).json({ error: 'Dados informados inválidos para alteração de senha' })
+    }
+
+    if (token !== check_data[0].passwordResetToken) {
+      return res.status(400).send({ error: 'token inválido' })
+    }
+
+    const now = new Date();
+    if (now > check_data[0].passwordResetExpires) {
+      return res.status(400).send({ error: 'token expirado, faça novo pedido de alteração de senha' })
+    }
+
+    const reset_status = await connection('users')
+      .where('email', email)
+      .update({
+        password: password,
+      })
+
+    if (!reset_status) {
+      return res.status(500).send({ error: 'Erro ao alterar a senha' })
+    }
+
+    res.status(200).send({ message: 'Senha alterada' });
 
   },
 
