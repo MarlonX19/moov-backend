@@ -35,8 +35,6 @@ module.exports = {
         email
       }).select('users.email')
 
-      console.log(response+'haha')
-
       if (response.length > 0) {
         return res.status(200).send({ message: `O email já está em uso`, response: response })
       }
@@ -52,28 +50,23 @@ module.exports = {
 
 
   async forgot(req, res) {
-    const { email } = req.body;
+    const { email, id } = req.body;
 
     const user_data = await connection('users').where({
       email
     }).select('*')
 
-
-    console.log(user_data)
-
-    if (!user_data) {
+    if (user_data.length < 1) {
       return res.status(403).json({ error: 'Email informado inexistente' })
     }
-
-    console.log(user_data)
-
-    const token = crypto.randomBytes(20).toString('hex');
+    
+    const token = crypto.randomBytes(2).toString('hex');
     const now = new Date();
 
     now.setHours(now.getHours() + 1);
 
     const recovery_status = await connection('users')
-      .where('id', 1) //hardcoded, replace paramenter for user_data.id
+      .where({ id }) //hardcoded, replace paramenter for user_data.id
       .update({
         passwordResetToken: token,
         passwordResetExpires: now
