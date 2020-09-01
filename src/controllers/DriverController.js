@@ -5,16 +5,22 @@ module.exports = {
   //insert
   async store(req, res) {
     const { filename } = req.file;
-    const { first_name, last_name, email, password } = req.body;
+    const { first_name, last_name, email, password, phone, document, number_stars, push_id } = req.body;
 
     try {
-      const response = await connection('doctors').insert({
+      const response = await connection('drivers').insert({
         first_name,
         last_name,
         email,
+        phone,
+        document,
+        number_stars,
+        push_id,
         password,
         avatar_path: filename
       });
+
+      console.log(response)
 
       return res.send(response);
 
@@ -27,8 +33,8 @@ module.exports = {
   async listAll(req, res) {
 
     try {
-      const response = await connection('doctors').select('*');
-      return res.send({response: response});
+      const response = await connection('drivers').select('*');
+      return res.send({ response: response });
     }
     catch (error) {
       return res.send(error)
@@ -39,7 +45,7 @@ module.exports = {
     const { doctor_id } = req.body;
 
     try {
-      const response = await connection('doctors').where({ id: doctor_id }).select('*');
+      const response = await connection('drivers').where({ id: doctor_id }).select('*');
       if (response.length > 0) {
         return res.send(response);
       }
