@@ -49,12 +49,12 @@ module.exports = {
       if (response.length > 0) {
         return res.send(response);
       }
-      return res.send({ message: 'Motorista não encontrado não encontrado' });
+      return res.send({ message: 'Motorista não encontrado' });
     }
     catch (error) {
       return res.send(error)
     }
 
+  },
 
-  }
 }

@@ -27,6 +27,30 @@ module.exports = {
   },
 
 
+  async LoginDriver(req, res) {
+    const { email, password } = req.body;
+
+    try {
+      const response = await connection('drivers').where({
+        email,
+        password
+      }).select('drivers.first_name', 'drivers.phone', 'drivers.last_name', 'drivers.id', 'drivers.email', 'drivers.avatar_path', 'push_id')
+
+      if (response.length > 0) {
+        return res.status(200).send(response)
+      }
+
+      return res.status(404).send({ message: 'Motorista não encontrado', response: response })
+
+    }
+    catch (error) {
+
+      return res.send(error)
+    }
+  },
+
+
+
   async checkEmail(req, res) {
     const { email } = req.body;
 

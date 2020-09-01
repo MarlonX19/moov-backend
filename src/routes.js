@@ -28,6 +28,7 @@ routes.get('/delivery', DeliveryController.listConsult);
 
 
 routes.post('/login', AuthController.Login);
+routes.post('/driverlogin', AuthController.LoginDriver);
 routes.post('/checkEmail', AuthController.checkEmail);
 routes.post('/forgot', AuthController.forgot);
 routes.post('/reset', AuthController.reset);
