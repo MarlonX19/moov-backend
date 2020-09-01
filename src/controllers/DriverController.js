@@ -42,14 +42,14 @@ module.exports = {
   },
 
   async listData(req, res) {
-    const { doctor_id } = req.body;
+    const { driver_id } = req.body;
 
     try {
-      const response = await connection('drivers').where({ id: doctor_id }).select('*');
+      const response = await connection('drivers').where({ id: driver_id }).select('*');
       if (response.length > 0) {
         return res.send(response);
       }
-      return res.send({ message: 'Médico não encontrado' });
+      return res.send({ message: 'Motorista não encontrado não encontrado' });
     }
     catch (error) {
       return res.send(error)
