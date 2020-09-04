@@ -52,18 +52,18 @@ module.exports = {
 
 
   async checkEmail(req, res) {
-    const { email } = req.body;
+    const { email, type } = req.body;
 
     try {
-      const response = await connection('users').where({
+      const response = await connection(type).where({
         email
-      }).select('users.email')
+      }).select(`${type}.email`)
 
       if (response.length > 0) {
         return res.status(200).send({ message: `O email já está em uso`, response: response })
       }
 
-      return res.status(404).send();
+      return res.send({ message: 'Email não encontrado', messageCode: '404' });
 
     }
     catch (error) {
@@ -74,9 +74,9 @@ module.exports = {
 
 
   async forgot(req, res) {
-    const { email } = req.body;
+    const { email, type } = req.body;
 
-    const user_data = await connection('users').where({
+    const user_data = await connection(type).where({
       email
     }).select('*')
 
@@ -89,7 +89,7 @@ module.exports = {
 
     now.setHours(now.getHours() + 1);
 
-    const recovery_status = await connection('users')
+    const recovery_status = await connection(type)
       .where({ email }) //hardcoded, replace paramenter for user_data.id
       .update({
         passwordResetToken: token,
@@ -112,42 +112,42 @@ module.exports = {
       }
     })
 
-    return res.status(200).json({ message: 'Token de segurança gerado e enviado ao seu email' })
+    return res.status(200).json({ message: 'Token de segurança gerado e enviado ao seu email', messageCode: '201' })
 
   },
 
 
   async reset(req, res) {
-    const { email, token, password } = req.body;
+    const { email, token, password, type } = req.body;
 
-    const check_data = await connection('users')
+    const check_data = await connection(type)
       .where('email', email)
       .select('passwordResetToken', 'passwordResetExpires')
 
     if (check_data.length < 1) {
-      return res.status(403).json({ error: 'Dados informados inválidos para alteração de senha' })
+      return res.json({ error: 'Dados informados inválidos para alteração de senha' })
     }
 
     if (token !== check_data[0].passwordResetToken) {
-      return res.status(400).send({ error: 'token inválido' })
+      return res.send({ error: 'token inválido', messageCode: '400' })
     }
 
     const now = new Date();
     if (now > check_data[0].passwordResetExpires) {
-      return res.status(400).send({ error: 'token expirado, faça novo pedido de alteração de senha' })
+      return res.send({ error: 'token expirado, faça novo pedido de alteração de senha', messageCode: '400' })
     }
 
-    const reset_status = await connection('users')
+    const reset_status = await connection(type)
       .where('email', email)
       .update({
         password: password,
       })
 
     if (!reset_status) {
-      return res.status(500).send({ error: 'Erro ao alterar a senha' })
+      return res.send({ error: 'Erro ao alterar a senha', messageCode: '500' })
     }
 
-    res.status(200).send({ message: 'Senha alterada' });
+    res.send({ message: 'Senha alterada', messageCode: '201' });
 
   },
 
