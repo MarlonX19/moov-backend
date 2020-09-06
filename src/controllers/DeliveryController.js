@@ -4,7 +4,10 @@ const connection = require('../database/connection');
 module.exports = {
 
   async store(req, res) {
-    const { accepted, delivered, value, observation, from, to, delivered_at, date, user_id, driver_id } = req.body;
+    const { accepted, delivered, value,
+      observation, from, to,
+      delivered_at, date, user_id,
+      driver_id } = req.body;
 
     try {
       const response = await connection('delivery').insert({
