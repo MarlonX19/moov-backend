@@ -60,7 +60,7 @@ module.exports = {
       }).select(`${type}.email`)
 
       if (response.length > 0) {
-        return res.status(200).send({ message: `O email já está em uso`, response: response })
+        return res.send({ message: `O email já está em uso`, response: response })
       }
 
       return res.send({ message: 'Email não encontrado', messageCode: '404' });
