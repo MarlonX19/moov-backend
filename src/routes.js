@@ -22,7 +22,7 @@ routes.get('/driver', DriverController.listData);
 routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
 
 
-routes.post('/deliveries', DeliveryController.store);
+routes.post('/delivery', DeliveryController.store);
 routes.get('/deliveries', DeliveryController.listAll);
 routes.get('/delivery', DeliveryController.listConsult);
 

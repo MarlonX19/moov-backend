@@ -20,12 +20,12 @@ module.exports = {
         user_id
       });
       console.log(response)
-      return res.send(response)
+      return res.send({ message: "Entrega criada com sucesso", messageCode: "200" })
     }
     catch (error) {
       console.log(error)
 
-      return res.send(error)
+      return res.send({ message: "Erro ao criar entrega", messageCode: "500" })
     }
   },
 
