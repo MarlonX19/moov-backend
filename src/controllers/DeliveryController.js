@@ -32,17 +32,17 @@ module.exports = {
   async listAll(req, res) {
 
     try {
-      const response = await connection('consultations').select("*");
+      const response = await connection('delivery').select("*");
       console.log(response)
       if (response.length > 0) {
-        return res.send(response)
+        return res.send({ message: 'Entregas registradas na base de dados', messageCode: '200', response: response })
       }
-      return res.send({ message: 'Nenhum consulta encontrada' });
+      return res.send({ message: 'Nenhum entrega encontrada na base da dados', messageCode: '404' });
     }
     catch (error) {
       console.log(error)
 
-      return res.send(error)
+      return res.send({ message: 'Erro ao buscar entregas na base da dados', messageCode: '500' })
     }
   },
 
