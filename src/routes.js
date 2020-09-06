@@ -24,7 +24,7 @@ routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
 
 routes.post('/delivery', DeliveryController.store);
 routes.get('/deliveries', DeliveryController.listAll);
-routes.get('/delivery', DeliveryController.listConsult);
+routes.get('/delivery', DeliveryController.listDelivery);
 
 
 routes.post('/login', AuthController.Login);

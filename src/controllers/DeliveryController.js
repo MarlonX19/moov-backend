@@ -46,34 +46,33 @@ module.exports = {
     }
   },
 
-  async listConsult(req, res) {
-    const { user_id } = req.body;
+  async listDelivery(req, res) {
+    const { user_id, type } = req.body;
+    //in this context user_id can be both driver id and ordinary user id
+
+    let tableId = '';
+    if (type === 'users') {
+      tableId = 'user';
+    } else {
+      tableId = 'driver';
+    }
+
 
     try {
-      const response = await connection('consultations')
+      const response = await connection('delivery')
         .where({ user_id })
-        .join('doctors', 'consultations.doctor_id', 'doctors.id')
-        .select("consultations.id",
-          "consultations.symptons",
-          "consultations.isOpen",
-          "consultations.time",
-          "consultations.date",
-          "doctors.first_name",
-          "doctors.last_name",
-          "doctors.phone",
-          "doctors.email",
-          "doctors.avatar_path",
-        );
+        .join(type, `delivery.${tableId}_id`, `${type}.id`)
+        .select("*");
 
       if (response.length > 0) {
-        return res.send(response)
+        console.log(response)
+        return res.send({ message: 'Entregas encontradas', messageCode: '200', response: response })
       }
-      return res.send({ message: 'Nenhum consulta encontrada' });
+      return res.send({ message: 'Nenhum entrega encontrada', messageCode: '404' });
     }
     catch (error) {
       console.log(error)
-
-      return res.send(error)
+      return res.send({ message: 'Erro ao consultar entregas', messageCode: '505' })
     }
   }
 }
