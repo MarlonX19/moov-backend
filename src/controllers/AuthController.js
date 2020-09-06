@@ -60,12 +60,13 @@ module.exports = {
       }).select(`${type}.email`)
 
       if (response.length > 0) {
-        return res.send({ message: `O email já está em uso`, response: response })
+        return res.send({ message: `O email já está em uso`, response: response, messageCode: '200' })
       }
 
       return res.send({ message: 'Email não encontrado', messageCode: '404' });
 
     }
+    
     catch (error) {
 
       return res.send(error)
@@ -108,11 +109,13 @@ module.exports = {
       context: { token },
     }, (err) => {
       if (err) {
-        return res.status(400).send({ error: 'Erro ao enviar email de recuperação' })
+        return res.send({ error: 'Erro ao enviar email de recuperação', messageCode: '500' })
+      } else {
+        return res.status(200).json({ message: 'Token de segurança gerado e enviado ao seu email', messageCode: '201' })
       }
     })
 
-    return res.status(200).json({ message: 'Token de segurança gerado e enviado ao seu email', messageCode: '201' })
+    
 
   },
 

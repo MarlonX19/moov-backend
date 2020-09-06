@@ -4,15 +4,19 @@ const connection = require('../database/connection');
 module.exports = {
 
   async store(req, res) {
-    const { date, time, symptons, doctor_id, user_id, isOpen } = req.body;
+    const { accepted, delivered, value, observation, from, to, delivered_at, date, user_id, driver_id } = req.body;
 
     try {
-      const response = await connection('consultations').insert({
+      const response = await connection('delivery').insert({
+        accepted,
+        delivered,
+        value,
+        observation,
+        from,
+        to,
+        delivered_at,
         date,
-        time,
-        symptons,
-        isOpen,
-        doctor_id,
+        driver_id,
         user_id
       });
       console.log(response)
