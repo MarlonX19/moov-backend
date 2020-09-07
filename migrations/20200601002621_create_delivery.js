@@ -9,6 +9,8 @@ exports.up = function (knex) {
       table.string('observation');
       table.string('from');
       table.string('to');
+      table.string('fromTown');
+      table.string('toTown');
       table.timestamp('delivered_at');
       table.timestamp('date');
       table.integer('user_id');

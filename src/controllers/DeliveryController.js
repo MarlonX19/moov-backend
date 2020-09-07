@@ -51,6 +51,7 @@ module.exports = {
 
   async listDelivery(req, res) {
     const { user_id, type } = req.body;
+    console.log(user_id, type)
     //in this context user_id can be both driver id and ordinary user id
 
     let tableId = '';
@@ -68,7 +69,7 @@ module.exports = {
         .select("*");
 
       if (response.length > 0) {
-        console.log(response)
+      
         return res.send({ message: 'Entregas encontradas', messageCode: '200', response: response })
       }
       return res.send({ message: 'Nenhum entrega encontrada', messageCode: '404' });
