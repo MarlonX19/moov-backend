@@ -36,6 +36,11 @@ motoristas.on('connection', (socket) => {
 
   newNamespace.emit('connected', socket.client.conn.server.clientsCount)
   //io.emit('connected', socket.client.conn.server.clientsCount)
+
+
+  socket.on('accepted', (data) => {
+    motoristas.emit('accepted', data)
+  })
 });
 
 
