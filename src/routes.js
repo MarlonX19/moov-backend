@@ -18,7 +18,7 @@ routes.put('/userPhoto',  uploads.single('userphoto'), UserController.updateUser
 
 
 routes.get('/drivers', DriverController.listAll);
-routes.get('/driver', DriverController.listData);
+routes.post('/driver', DriverController.listData);
 routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
 
 

@@ -47,9 +47,9 @@ module.exports = {
     try {
       const response = await connection('drivers').where({ id: driver_id }).select('*');
       if (response.length > 0) {
-        return res.send(response);
+        return res.send({ response, messageCode: '200' });
       }
-      return res.send({ message: 'Motorista não encontrado' });
+      return res.send({ message: 'Motorista não encontrado', messageCode: '404' });
     }
     catch (error) {
       return res.send(error)

@@ -5,9 +5,9 @@ module.exports = {
 
   async store(req, res) {
     const { accepted, delivered, value,
-      observation, from, to,
+      observation, fromLatitude, fromLongitude, toLatitude, toLongitude,
       delivered_at, date, user_id,
-      driver_id } = req.body;
+      driver_id, fromTown, toTown } = req.body;
 
     try {
       const response = await connection('delivery').insert({
@@ -15,8 +15,12 @@ module.exports = {
         delivered,
         value,
         observation,
-        from,
-        to,
+        fromLatitude,
+        fromLongitude,
+        toLatitude,
+        toLongitude,
+        fromTown,
+        toTown,
         delivered_at,
         date,
         driver_id,

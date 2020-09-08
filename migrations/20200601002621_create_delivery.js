@@ -7,8 +7,10 @@ exports.up = function (knex) {
       table.boolean('delivered');
       table.float('value');
       table.string('observation');
-      table.string('from');
-      table.string('to');
+      table.string('fromLatitude');
+      table.string('fromLongitude');
+      table.string('toLatitude');
+      table.string('toLongitude');
       table.string('fromTown');
       table.string('toTown');
       table.timestamp('delivered_at');
