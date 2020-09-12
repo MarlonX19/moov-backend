@@ -53,7 +53,7 @@ module.exports = {
     try {
       const response = await connection('users').where({ id: user_id }).select('*');
       if (response.length > 0) {
-        return res.send(response);
+        return res.send({ response, messageCode: '200' });
       }
       return res.send({ message: 'Usuário não encontrado' });
     }
@@ -76,10 +76,10 @@ module.exports = {
       if (response === 1) {
         const newData = await connection('users').where({ id: userData.id }).select('*');
 
-        return res.send(newData);
+        return res.send({ message: 'Dados atualizados com sucesso', response: newData, messageCode: '200' });
 
       }
-      return res.send({ message: 'Erro ao atualizar dados' });
+      return res.send({ message: 'Erro ao atualizar dados', messageCode: '500' });
     }
     catch (error) {
       return res.send(error)

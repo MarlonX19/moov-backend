@@ -11,7 +11,7 @@ const uploads = multer(uploadConfig);
 
 
 routes.get('/users', UserController.listAll);
-routes.get('/user', UserController.listData);
+routes.post('/user', UserController.listData);
 routes.post('/users', uploads.single('userphoto'), UserController.store);
 routes.put('/users', UserController.updateUser);
 routes.put('/userPhoto',  uploads.single('userphoto'), UserController.updateUserPhoto);
