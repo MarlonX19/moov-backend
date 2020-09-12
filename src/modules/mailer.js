@@ -6,8 +6,8 @@ const transport = nodemailer.createTransport({
   host: "in-v3.mailjet.com",
   port: 587,
   auth: {
-    user: "84cc96d07bd290046ebf7a141dff023e",
-    pass: "159d18c9c48c394050a685d40dca0863"
+    user: "907414ce2e93eb97e3b43eb6d250f7fe",
+    pass: "a21ef3aed8adedd167a25611540be821"
   }
 });
 

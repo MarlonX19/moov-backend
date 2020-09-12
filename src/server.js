@@ -41,6 +41,10 @@ motoristas.on('connection', (socket) => {
   socket.on('accepted', (data) => {
     motoristas.emit('accepted', data)
   })
+
+  socket.on('watchedPosition', (data) => {
+    motoristas.emit('watchedPosition', data)
+  })
 });
 
 

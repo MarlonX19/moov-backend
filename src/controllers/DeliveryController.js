@@ -68,7 +68,7 @@ module.exports = {
 
     try {
       const response = await connection('delivery')
-        .where({ user_id })
+        .where( `${tableId}_id`, `${user_id}` )
         .join(type, `delivery.${tableId}_id`, `${type}.id`)
         .select("*");
 
