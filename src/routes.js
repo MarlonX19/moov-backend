@@ -20,6 +20,7 @@ routes.put('/userPhoto',  uploads.single('userphoto'), UserController.updateUser
 routes.get('/drivers', DriverController.listAll);
 routes.post('/driver', DriverController.listData);
 routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
+routes.put('/drivers', DriverController.updateDriver);
 
 
 routes.post('/delivery', DeliveryController.store);

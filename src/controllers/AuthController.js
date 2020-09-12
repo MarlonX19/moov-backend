@@ -37,10 +37,10 @@ module.exports = {
       }).select('drivers.first_name', 'drivers.phone', 'drivers.last_name', 'drivers.id', 'drivers.email', 'drivers.avatar_path', 'push_id')
 
       if (response.length > 0) {
-        return res.status(200).send(response)
+        return res.send({ message: 'Login efetuado com sucesso', response, messageCode: '200' })
       }
 
-      return res.status(404).send({ message: 'Motorista não encontrado', response: response })
+      return res.send({ message: 'Motorista não encontrado', response: response,  messageCode: '500' })
 
     }
     catch (error) {
@@ -66,7 +66,7 @@ module.exports = {
       return res.send({ message: 'Email não encontrado', messageCode: '404' });
 
     }
-    
+
     catch (error) {
 
       return res.send(error)
@@ -115,7 +115,7 @@ module.exports = {
       }
     })
 
-    
+
 
   },
 

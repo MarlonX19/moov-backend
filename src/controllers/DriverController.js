@@ -57,4 +57,28 @@ module.exports = {
 
   },
 
+
+  async updateDriver(req, res) {
+    const { userData } = req.body;
+
+    console.log(userData)
+
+    try {
+      const response = await connection('drivers').where({ id: userData.id }).update(userData);
+
+      console.log(response)
+      if (response === 1) {
+        const newData = await connection('drivers').where({ id: userData.id }).select('*');
+
+        return res.send({ message: 'Dados atualizados com sucesso', response: newData, messageCode: '200' });
+
+      }
+      return res.send({ message: 'Erro ao atualizar dados', messageCode: '500' });
+    }
+    catch (error) {
+      return res.send(error)
+    }
+
+  },
+
 }
