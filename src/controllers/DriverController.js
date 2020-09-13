@@ -7,6 +7,8 @@ module.exports = {
     const { filename } = req.file;
     const { first_name, last_name, email, password, phone, document, number_stars, push_id } = req.body;
 
+    console.log('tentando criar conta de motorista');
+
     try {
       const response = await connection('drivers').insert({
         first_name,
@@ -61,6 +63,7 @@ module.exports = {
   async updateDriver(req, res) {
     const { userData } = req.body;
 
+    console.log('userData')
     console.log(userData)
 
     try {
@@ -80,5 +83,33 @@ module.exports = {
     }
 
   },
+
+
+  async updateDriverPhoto(req, res) {
+    const { filename } = req.file;
+    const { id } = req.body;
+
+
+    try {
+      const response = await connection('drivers').where({ id: id }).update({ avatar_path: filename });
+
+      console.log('====resultado de tentar salvar no banco')
+      console.log(response)
+      if (response === 1) {
+        const newData = await connection('drivers').where({ id: id }).select('*');
+
+        return res.send(newData);
+
+      }
+      return res.send({ message: 'Erro ao atualizar dados' });
+    }
+    catch (error) {
+      console.log('====erro ao tentar salvar imagem no banco de dados.')
+      console.log(error)
+      return res.send(error)
+    }
+
+  },
+
 
 }

@@ -9,18 +9,18 @@ const AuthController = require('./controllers/AuthController');
 const routes = express.Router();
 const uploads = multer(uploadConfig);
 
+routes.get('/drivers', DriverController.listAll);
+routes.post('/driver', DriverController.listData);
+routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
+routes.put('/driverPhoto', uploads.single('driverphoto'), DriverController.updateDriverPhoto);
+routes.put('/drivers', DriverController.updateDriver);
+
 
 routes.get('/users', UserController.listAll);
 routes.post('/user', UserController.listData);
 routes.post('/users', uploads.single('userphoto'), UserController.store);
 routes.put('/users', UserController.updateUser);
 routes.put('/userPhoto',  uploads.single('userphoto'), UserController.updateUserPhoto);
-
-
-routes.get('/drivers', DriverController.listAll);
-routes.post('/driver', DriverController.listData);
-routes.post('/drivers', uploads.single('driverphoto'), DriverController.store);
-routes.put('/drivers', DriverController.updateDriver);
 
 
 routes.post('/delivery', DeliveryController.store);

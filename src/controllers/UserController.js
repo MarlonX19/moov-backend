@@ -96,7 +96,7 @@ module.exports = {
 
     try {
       const response = await connection('users').where({ id: id }).update({ avatar_path: filename });
-
+      console.log('response')
       console.log(response)
       if (response === 1) {
         const newData = await connection('users').where({ id: id }).select('*');
