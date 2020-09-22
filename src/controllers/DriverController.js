@@ -61,17 +61,15 @@ module.exports = {
 
 
   async updateDriver(req, res) {
-    const { userData } = req.body;
+    const { driverData } = req.body;
 
-    console.log('userData')
-    console.log(userData)
 
     try {
-      const response = await connection('drivers').where({ id: userData.id }).update(userData);
+      const response = await connection('drivers').where({ id: driverData.id }).update(driverData);
 
       console.log(response)
       if (response === 1) {
-        const newData = await connection('drivers').where({ id: userData.id }).select('*');
+        const newData = await connection('drivers').where({ id: driverData.id }).select('*');
 
         return res.send({ message: 'Dados atualizados com sucesso', response: newData, messageCode: '200' });
 
