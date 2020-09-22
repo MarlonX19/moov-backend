@@ -88,6 +88,7 @@ module.exports = {
   async updateDriverPhoto(req, res) {
     const { filename } = req.file;
     const { id } = req.body;
+    console.log('imagem do driver aqui')
 
 
     try {
