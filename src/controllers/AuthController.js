@@ -11,7 +11,7 @@ module.exports = {
       const response = await connection('users').where({
         email,
         password
-      }).select('users.first_name', 'users.phone', 'users.last_name', 'users.id', 'users.email', 'users.avatar_path', 'push_id')
+      }).select('*')
 
       if (response.length > 0) {
         return res.status(200).send(response)

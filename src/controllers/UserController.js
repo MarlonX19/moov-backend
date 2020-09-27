@@ -5,6 +5,8 @@ module.exports = {
     const { filename } = req.file;
     const { first_name, last_name, email, password, phone, document, number_starts, push_id } = req.body;
 
+    console.log(req.body);
+
     const checkEmail = await connection('users').where({
       email
     }).select('users.email')

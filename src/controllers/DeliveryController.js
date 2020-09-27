@@ -1,4 +1,9 @@
 const connection = require('../database/connection');
+const axios = require('axios');
+
+const { ONE_SIGNAL_APP_ID } = require('../constants/index');
+
+console.log(ONE_SIGNAL_APP_ID);
 
 
 module.exports = {
@@ -26,7 +31,25 @@ module.exports = {
         driver_id,
         user_id
       });
-      console.log(response)
+      // console.log(response);
+
+      if (accepted) {
+        const push = await connection('users')
+          .where({ id: user_id })
+          .select("push_id");
+
+        axios.post('https://onesignal.com/api/v1/notifications', {
+            "app_id": ONE_SIGNAL_APP_ID,
+            "include_player_ids": [push[0].push_id],
+            "data": {"foo": "conteúdo"},
+            "contents": {"en": "O carreteiro aceitou a proposta"}
+        }).then(response => {
+          console.log(response.data)
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+
       return res.send({ message: "Entrega criada com sucesso", messageCode: "200" })
     }
     catch (error) {
@@ -68,12 +91,12 @@ module.exports = {
 
     try {
       const response = await connection('delivery')
-        .where( `${tableId}_id`, `${user_id}` )
+        .where(`${tableId}_id`, `${user_id}`)
         .join(type, `delivery.${tableId}_id`, `${type}.id`)
         .select("*");
 
       if (response.length > 0) {
-      
+
         return res.send({ message: 'Entregas encontradas', messageCode: '200', response: response })
       }
       return res.send({ message: 'Nenhum entrega encontrada', messageCode: '404' });
