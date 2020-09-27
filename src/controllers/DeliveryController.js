@@ -1,9 +1,8 @@
 const connection = require('../database/connection');
 const axios = require('axios');
 
-const { ONE_SIGNAL_APP_ID } = require('../constants/index');
+const { ONE_SIGNAL_APP_ID, ONE_SIGNAL_API_BASE_URL } = require('../constants/index');
 
-console.log(ONE_SIGNAL_APP_ID);
 
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
           .where({ id: user_id })
           .select("push_id");
 
-        axios.post('https://onesignal.com/api/v1/notifications', {
+        axios.post(ONE_SIGNAL_API_BASE_URL, {
             "app_id": ONE_SIGNAL_APP_ID,
             "include_player_ids": [push[0].push_id],
             "data": {"foo": "conteúdo"},
