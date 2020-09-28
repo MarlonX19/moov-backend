@@ -25,6 +25,7 @@ routes.put('/userPhoto',  uploads.single('userphoto'), UserController.updateUser
 
 routes.post('/delivery', DeliveryController.store);
 routes.get('/deliveries', DeliveryController.listAll);
+routes.put('/delivery', DeliveryController.update);
 routes.post('/user/deliveries', DeliveryController.listDelivery);
 
 

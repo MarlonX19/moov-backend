@@ -38,10 +38,10 @@ module.exports = {
           .select("push_id");
 
         axios.post(ONE_SIGNAL_API_BASE_URL, {
-            "app_id": ONE_SIGNAL_APP_ID,
-            "include_player_ids": [push[0].push_id],
-            "data": {"foo": "conteúdo"},
-            "contents": {"en": "O carreteiro aceitou a proposta"}
+          "app_id": ONE_SIGNAL_APP_ID,
+          "include_player_ids": [push[0].push_id],
+          "data": { "foo": "conteúdo" },
+          "contents": { "en": "O carreteiro aceitou a proposta" }
         }).then(response => {
           console.log(response.data)
         }).catch(error => {
@@ -57,6 +57,46 @@ module.exports = {
       return res.send({ message: "Erro ao criar entrega", messageCode: "500" })
     }
   },
+
+
+  async update(req, res) {
+    const { accepted, delivered, value,
+      observation, fromLatitude, fromLongitude, toLatitude, toLongitude,
+      delivered_at, date, user_id,
+      driver_id, fromTown, toTown } = req.body;
+
+    try {
+      const response = await connection('delivery').where({ fromTown: fromTown, toTown: toTown, value: value }).update({ driver_id: driver_id, accepted: true })
+      console.log('response do motorista que aceitou');
+      console.log(response);
+
+      if (accepted) {
+        const push = await connection('users')
+          .where({ id: user_id })
+          .select("push_id");
+
+        axios.post(ONE_SIGNAL_API_BASE_URL, {
+          "app_id": ONE_SIGNAL_APP_ID,
+          "include_player_ids": [push[0].push_id],
+          "data": { "foo": "conteúdo" },
+          "contents": { "en": "O carreteiro aceitou fazer sua entrega!" }
+        }).then(response => {
+          console.log(response.data)
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+
+      return res.send({ message: "Entrega aceita pelo motorista", messageCode: "200" })
+    }
+    catch (error) {
+      console.log(error)
+
+      return res.send({ message: "Erro ao aceitar entrega", messageCode: "500" })
+    }
+  },
+
+
 
   async listAll(req, res) {
 
