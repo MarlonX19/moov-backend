@@ -7,6 +7,8 @@ exports.up = function (knex) {
       table.string('last_name', 255).notNullable();
       table.string('phone');
       table.string('email');
+      table.string('latitude');
+      table.string('longitude');
       table.string('document');
       table.string('description');
       table.string('push_id');

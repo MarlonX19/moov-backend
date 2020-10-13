@@ -27,6 +27,8 @@ routes.post('/delivery', DeliveryController.store);
 routes.get('/deliveries', DeliveryController.listAll);
 routes.put('/delivery', DeliveryController.update);
 routes.post('/user/deliveries', DeliveryController.listDelivery);
+routes.post('/rate', DeliveryController.setCommentRate);
+routes.post('/user/rate', DeliveryController.getCommentRate);
 
 
 routes.post('/login', AuthController.Login);

@@ -97,6 +97,43 @@ module.exports = {
   },
 
 
+  async setCommentRate(req, res) {
+    const { driver_id, commentRate } = req.body;
+
+    try {
+      const response = await connection('commentRate').insert({ driver_id, comment: commentRate });
+      console.log('response da avaliação em comentario');
+      console.log(response);
+
+
+      return res.send({ message: "Avaliação dada com êxito", messageCode: "200" })
+    }
+    catch (error) {
+      console.log(error)
+
+      return res.send({ message: "Erro ao avaliar", messageCode: "500" })
+    }
+  },
+
+
+  async getCommentRate(req, res) {
+    const { driver_id } = req.body;
+
+    try {
+      const response = await connection('commentRate').where({ driver_id: driver_id }).select("*");
+      console.log('avaliações aqui');
+      console.log(response);
+
+      return res.send({ message: "Avaliações do usuário", messageCode: "200", response: response })
+    }
+    catch (error) {
+      console.log(error)
+
+      return res.send({ message: "Erro ao verificar avaliações", messageCode: "500" })
+    }
+  },
+
+
 
   async listAll(req, res) {
 
