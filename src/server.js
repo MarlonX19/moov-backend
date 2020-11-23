@@ -22,6 +22,8 @@ usuarios.on('connection', (socket) => {
   console.log('a user connected to usuarios');
 
   socket.on('continue', (data) => {
+    console.log('continue');
+    console.log(data)
     motoristas.emit('hello', data)
   })
 
