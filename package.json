@@ -12,7 +12,7 @@
     "url": "git+https://github.com/MarlonX19/consultai-backend.git"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.21.1",
